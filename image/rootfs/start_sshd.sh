@@ -49,11 +49,11 @@ HostKey /.sshd/host_keys/host_rsa_key
 HostKey /.sshd/host_keys/host_dsa_key
 
 #Privilege Separation is turned on for security
-UsePrivilegeSeparation no
+#UsePrivilegeSeparation no
 
 # Lifetime and size of ephemeral version 1 server key
-KeyRegenerationInterval 3600
-ServerKeyBits 768
+#KeyRegenerationInterval 3600
+#ServerKeyBits 768
 
 # Logging
 SyslogFacility AUTH
@@ -64,14 +64,14 @@ LoginGraceTime 120
 PermitRootLogin $PERMIT_ROOT_LOGIN
 StrictModes yes
 
-RSAAuthentication yes
+#RSAAuthentication yes
 PubkeyAuthentication yes
 AuthorizedKeysFile /.sshd/user_keys/%u/authorized_keys
 
 # Don't read the user's ~/.rhosts and ~/.shosts files
 IgnoreRhosts yes
 # For this to work you will also need host keys in /etc/ssh_known_hosts
-RhostsRSAAuthentication no
+#RhostsRSAAuthentication no
 # similar for protocol version 2
 HostbasedAuthentication no
 # Uncomment if you don't trust ~/.ssh/known_hosts for RhostsRSAAuthentication

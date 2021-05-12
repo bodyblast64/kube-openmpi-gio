@@ -1,6 +1,10 @@
 image:
-  repository: everpeace/kube-openmpi
-  tag: 0.7.0
+  #repository: everpeace/kube-openmpi
+  #tag: 0.7.0
+  #repository: umwrg/kube-openmpi # working by not using 'latest'
+  #tag: 4.0.3-20.04-0.7.1 # 4.0.3 = openmpi version, 20.04 is ubuntu version, 0.7.1 is image version
+  repository: umwrg/moea-core
+  tag: 0.0.4
   # pullPolicy: IfNotPresent
   # pullSecrets:
   # - name: ""
@@ -39,9 +43,18 @@ mpiMaster:
     # requests:
     #  cpu: 100m
     #  memory: 128Mi
-  nodeSelector: {}
+  nodeSelector: {} 
   tolerations: []
-  affinity: {}
+  affinity:
+      nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: k3s.io/hostname
+                        operator: In
+                        values:
+                            - dafni-main
+
   # volumes:
   # - name: cache-volume
   #   emptyDir: {}
@@ -50,7 +63,7 @@ mpiMaster:
   #   name: cache-volume
 
 mpiWorkers:
-  num: 3
+  num: 2
   # securityContext:
   #   runAsUser: 1000
   #   fsGroup: 1000
@@ -70,7 +83,25 @@ mpiWorkers:
     #  gpu: 1
   nodeSelector: {}
   tolerations: []
-  affinity: {}
+  affinity:
+      nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: k3s.io/hostname
+                        operator: In
+                        values:
+                            - dafni-worker1
+                            - dafni-worker2
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+            - key: release
+              operator: In
+              values:
+              - mpitest
+          topologyKey: kubernetes.io/hostname
   # volumes:
   # - name: cache-volume
   #   emptyDir: {}

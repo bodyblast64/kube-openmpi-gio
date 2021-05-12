@@ -5,8 +5,6 @@ MAINTAINER Shingo OMURA <https://github.com/everpeace>
 
 ARG OPENMPI_VERSION
 
-ARG WITH_CUDA="false"
-
 # Disable prompts from apt.
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -19,14 +17,11 @@ RUN apt-get update && \
 #
 # install openmpi
 #
-RUN echo "WITH_CUDA=$WITH_CUDA"
 RUN cd /tmp && \
   wget -q https://www.open-mpi.org/software/ompi/v$(echo $OPENMPI_VERSION | sed -e s'/\(.*\)\.[0-9]/\1/')/downloads/openmpi-$OPENMPI_VERSION.tar.bz2 && \
   tar -xjf openmpi-$OPENMPI_VERSION.tar.bz2 && \
   cd /tmp/openmpi-$OPENMPI_VERSION && \
-  if [ "$WITH_CUDA" = "true" ]; then export WITH_CUDA_OPT="--with-cuda"; else export WITH_CUDA_OPT=""; fi && \
-  echo "WITH_CUDA_OPT=$WITH_CUDA_OPT" && \
-  ./configure --prefix=/usr $WITH_CUDA_OPT && \
+  ./configure --prefix=/usr && \
   make -j2 && \
   make install && \
   rm -r /tmp/openmpi-$OPENMPI_VERSION
@@ -51,13 +46,9 @@ ARG HOME=/home/$SSH_USER
 RUN mkdir -p $HOME && chown $SSH_USER:$SSH_USER $HOME && chmod 755 $HOME
 VOLUME $HOME
 
+# for backward compatibility
+RUN mkdir -p /var/run/sshd 
 COPY rootfs /
-
-# check if open mpi was successfully built with cuda support.
-RUN if [ "$WITH_CUDA" = "true" ]; then \
-  if ! ompi_info --parsable --all | grep -q "mpi_built_with_cuda_support:value:true" ; then \
-    exit 1; \
-  fi; fi;
 
 EXPOSE 2022
 
