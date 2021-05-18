@@ -25,9 +25,19 @@ data:
         --field-selector=status.phase=Running \
         -o=jsonpath='{.items[*].metadata.name}')
 
+       
       rm -f ${target}_new
       for p in ${pod_names}; do
-        echo "${p}.{{ .Release.Name }}" >> ${target}_new
+        
+        #We try to get the number of CPUs on the pod's node, so that we can 
+        #put this data into the hostfile.
+        #**NB** We assume there is one pod per node
+        node_name=$(kubectl get pod ${p} -o=jsonpath='{.spec.nodeName}')
+        node_cpus=$(kubectl get node ${node_name} -o=jsonpath='{.status.allocatable.cpu}')
+        
+        node_cpus_reduced=$((node_cpus - 10))
+
+        echo "${p}.{{ .Release.Name }} slots=${node_cpus_reduced} max_slots=${node_cpus_reduced}">> ${target}_new
       done
 
       tried=$(expr $tried + 1)
@@ -41,6 +51,7 @@ data:
     if [ -e ${target}_new ]; then
       mv ${target}_new ${target}
     fi
+
 
 {{ if .Values.mpiMaster.autoUpdateHostfile.enabled }}
   hostfile_update_every: {{.Values.mpiMaster.autoUpdateHostfile.updateEvery | default "15" | quote }}
