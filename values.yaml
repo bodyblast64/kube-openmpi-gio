@@ -8,7 +8,7 @@ image:
   #repository: umwrg/moea-mpitest
   #tag: 0.0.2
   repository: docker-registry.hydra.org.uk/moea-wre
-  tag: 0.0.2
+  tag: 0.0.12
   # pullPolicy: IfNotPresent
   pullSecrets:
   - name: "dafni-docker-registry"
