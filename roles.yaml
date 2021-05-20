@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: mpitest-cluster-admin
+  name: moea-mpi-cluster-admin
 rules:
 # Just an example, feel free to change it
 - apiGroups: [""]
@@ -12,12 +12,12 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: mpitest-cluster-rbac
+  name: moea-mpi-cluster-rbac
 subjects:
 - kind: ServiceAccount
   name: default
   namespace: default
 roleRef:
   kind: ClusterRole
-  name: mpitest-cluster-admin
+  name: moea-mpi-cluster-admin
   apiGroup: rbac.authorization.k8s.io

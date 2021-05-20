@@ -5,7 +5,7 @@ image:
   #tag: 4.0.3-20.04-0.7.1 # 4.0.3 = openmpi version, 20.04 is ubuntu version, 0.7.1 is image version
   #repository: umwrg/moea-core
   #tag: 0.0.4
-  #repository: umwrg/moea-mpitest
+  #repository: umwrg/moea-moea-mpi
   #tag: 0.0.2
   repository: docker-registry.hydra.org.uk/moea-wre
   tag: 0.0.12
@@ -110,7 +110,7 @@ mpiWorkers:
             - key: release
               operator: In
               values:
-              - mpitest
+              - moea-mpi
           topologyKey: kubernetes.io/hostname
   volumes:
   - name: moea-volume

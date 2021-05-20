@@ -1,4 +1,4 @@
-MPI_CLUSTER_NAME=mpitest
+MPI_CLUSTER_NAME=moea-mpi
 KUBE_NAMESPACE=default
 
 if [[ $1 == 'basic' ]];
@@ -13,12 +13,10 @@ fi
 
 if [[ $1 == 'mpi4py' ]];
 then
-kubectl -n $KUBE_NAMESPACE exec -it $MPI_CLUSTER_NAME-master -- mpirun --allow-run-as-root \
+kubectl -n $KUBE_NAMESPACE exec -it $MPI_CLUSTER_NAME-master -- mpiexec --allow-run-as-root \
   --hostfile /kube-openmpi/generated/hostfile \
-  #--display-map -n 30 -npernode 5 \
   --use-hwthread-cpus \
-  --display-map -n 140\
-    python3 /app/mpi4py/demo/helloworld.py
+  --display-map -n 10 python3 /app/mpi4py/demo/helloworld.py
   exit 0
 fi
 
@@ -37,8 +35,8 @@ then
 kubectl -n $KUBE_NAMESPACE exec $MPI_CLUSTER_NAME-master -- mpirun --allow-run-as-root \
   --hostfile /kube-openmpi/generated/hostfile \
   --use-hwthread-cpus \
-  --display-map -n 80\
-  wre-moea borg-search /moea/wre/models/ruthamford-historic.json --max-evaluations 1500 --output-frequency 50 --random-seed 4 --suffix=test
+  --display-map -n 40\
+  wre-moea borg-search /moea/wre/models/ruthamford-historic.json --max-evaluations 150 --output-frequency 50 --random-seed 4 --suffix=test
   exit 0
 fi
 
