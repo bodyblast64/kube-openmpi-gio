@@ -14,5 +14,6 @@ do
     sleep 1
 done
  
-
-helm template mpitest chart --namespace $KUBE_NAMESPACE -f values.yaml -f ssh-key.yaml | kubectl -n $KUBE_NAMESPACE create -f -
+cp values.yaml values_edited.yaml
+sed -i "s/<USER>/$USER/g" values_edited.yaml
+helm template mpitest chart --namespace $KUBE_NAMESPACE -f values_edited.yaml -f ssh-key.yaml | kubectl -n $KUBE_NAMESPACE create -f -

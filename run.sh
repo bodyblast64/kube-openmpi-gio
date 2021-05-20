@@ -34,7 +34,7 @@ fi
 
 if [[ $1 == 'wre-test' ]];
 then
-kubectl -n $KUBE_NAMESPACE exec -it $MPI_CLUSTER_NAME-master -- mpirun --allow-run-as-root \
+kubectl -n $KUBE_NAMESPACE exec $MPI_CLUSTER_NAME-master -- mpirun --allow-run-as-root \
   --hostfile /kube-openmpi/generated/hostfile \
   --use-hwthread-cpus \
   --display-map -n 80\
@@ -48,7 +48,7 @@ kubectl -n $KUBE_NAMESPACE exec -it $MPI_CLUSTER_NAME-master -- mpirun --allow-r
   --hostfile /kube-openmpi/generated/hostfile \
   --use-hwthread-cpus \
   --display-map -n 140\
-   export HDF5_USE_FILE_LOCKING=FALSE; wre-moea borg-search models/wre-search-stochastic-lpm.json --max-evaluations 150000 --output-frequency 500 --random-seed 4 --suffix=test
+  export HDF5_USE_FILE_LOCKING=FALSE; wre-moea borg-search models/wre-search-stochastic-lpm.json --max-evaluations 150000 --output-frequency 500 --random-seed 4 --suffix=test > $(HOME)/logs/moea.log &
   exit 0
 fi
 

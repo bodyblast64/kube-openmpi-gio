@@ -30,16 +30,20 @@ mpiMaster:
   # securityContext:
   #   runAsUser: 1000
   #   fsGroup: 1000
-  # oneShot:
-  # If oneShot.enabled=true, mater automatically runs oneShot.command and complete self.
-  #   enabled: true
-  #   # This will scale workers down to 0 when command completed successfully.
-  #   autoScaleDownWorkers: true
-  #   command: |
-  #     mpiexec --allow-run-as-root \
-  #       --hostfile /kube-openmpi/generated/hostfile \
-  #       --display-map -n 4 -npernode 1 \
-  #       sh -c 'echo $(hostname):hello'
+  oneShot:
+    #If oneShot.enabled=true, mater automatically runs oneShot.command and complete self.
+    enabled: true
+    # This will scale workers down to 0 when command completed successfully.
+    autoScaleDownWorkers: true
+    command: |
+      mpiexec --allow-run-as-root \
+        --hostfile /kube-openmpi/generated/hostfile \
+        --use-hwthread-cpus \
+        --display-map -n 100 python3 /app/mpi4py/demo/helloworld.py > /moea/$(hostname).log
+        #      mpiexec --allow-run-as-root \
+        #        --hostfile /kube-openmpi/generated/hostfile \
+        #        --display-map -n 4 -npernode 1 \
+        #        sh -c 'echo $(hostname):hello'
   resources:
     # limits:
     #  cpu: 100m
@@ -62,7 +66,7 @@ mpiMaster:
   volumes:
   - name: moea-volume
     hostPath: 
-        path: /export/moea
+        path: /export/users-home-working-folders/<USER>/
         type: Directory
   volumeMounts:
   - mountPath: /moea
@@ -111,7 +115,7 @@ mpiWorkers:
   volumes:
   - name: moea-volume
     hostPath: 
-        path: /export/moea
+        path: /export/users-home-working-folders/<USER>
         type: Directory
   volumeMounts:
   - mountPath: /moea
