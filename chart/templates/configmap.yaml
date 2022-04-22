@@ -30,7 +30,7 @@ data:
       target_new_size=0
       if [ -f "${target}_new)" ]
       then
-        target_new_size=$(wc -l < ${target}_new)
+        target_new_size=$(wc -l ${target}_new)
       fi
       echo "Check if [ target_new_size -eq cluster_size ]"
       echo "$target_new_size =?= $cluster_size"
