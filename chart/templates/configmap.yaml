@@ -31,7 +31,7 @@ data:
       if [ -e "${target}_new" ]
       then
         echo "FOUND THE the file '${target}_new'"
-        target_new_size=$(wc -l ${target}_new)
+        target_new_size=$( wc -l ${target}_new )
       else
         echo "Not finding the file '${target}_new'"
       fi
