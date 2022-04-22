@@ -38,10 +38,13 @@ mpiMaster:
     # This will scale workers down to 0 when command completed successfully.
     autoScaleDownWorkers: true
     command: |
-      mpiexec --allow-run-as-root \
-        --hostfile /kube-openmpi/generated/hostfile \
-        --use-hwthread-cpus \
-        --display-map -n 100 python3 /app/mpi4py/demo/helloworld.py > /moea/$(hostname).log
+      sleep 86400
+      # mpiexec --allow-run-as-root \
+      #   --hostfile /kube-openmpi/generated/hostfile \
+      #   --use-hwthread-cpus \
+      #   --display-map -n 100 python3 /app/mpi4py/demo/helloworld.py > /moea/$(hostname).log
+
+
         #      mpiexec --allow-run-as-root \
         #        --hostfile /kube-openmpi/generated/hostfile \
         #        --display-map -n 4 -npernode 1 \
