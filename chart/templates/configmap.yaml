@@ -32,6 +32,8 @@ data:
       then
         target_new_size=$(wc -l < ${target}_new)
       fi
+      echo "Check if [ target_new_size -eq cluster_size ]"
+      echo "$target_new_size =?= $cluster_size"
       if [ $target_new_size -eq $cluster_size ];
       then
         break
