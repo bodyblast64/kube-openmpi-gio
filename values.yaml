@@ -100,7 +100,7 @@ mpiWorkers:
           requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
                   - matchExpressions:
-                      - key: k3s.io/hostname
+                      - key: kubernetes.io/hostname
                         operator: In
                         values:
                             - dafni-worker1
