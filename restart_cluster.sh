@@ -6,7 +6,7 @@ helm template moea-mpi chart --namespace $KUBE_NAMESPACE -f values.yaml -f ssh-k
 while true
 do
     echo "Checking for pods..."
-    p=$(kubectl get pods | grep moea-mpi)
+    p=$(kubectl get pods | grep -E "^moea-mpi")
     if [[ -z "$p" ]]
     then
         break
