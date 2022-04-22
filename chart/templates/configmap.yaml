@@ -28,7 +28,7 @@ data:
     # until [ "$(wc -l < ${target}_new)" -eq $cluster_size ]; do
     while true; do
       target_new_size=0
-      if [ -f "${target}_new)" ]
+      if [ -e "${target}_new)" ]
       then
         echo "FOUND THE the file '${target}_new'"
         target_new_size=$(wc -l ${target}_new)
@@ -46,7 +46,7 @@ data:
         --field-selector=status.phase=Running \
         -o=jsonpath='{.items[*].metadata.name}')
 
-      if [ -f "${target}_new" ]
+      if [ -e "${target}_new" ]
       then
         rm -f ${target}_new
       fi
