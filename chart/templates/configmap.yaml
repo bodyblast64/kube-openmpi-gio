@@ -28,7 +28,7 @@ data:
     # until [ "$(wc -l < ${target}_new)" -eq $cluster_size ]; do
     while true; do
       target_new_size=0
-      if [ -e "${target}_new)" ]
+      if [ -e "${target}_new" ]
       then
         echo "FOUND THE the file '${target}_new'"
         target_new_size=$(wc -l ${target}_new)
