@@ -20,7 +20,17 @@ data:
     echo "Cluster size: ${cluster_size}"
 
     tried=0
-    until [ "$(wc -l < ${target}_new)" -eq $cluster_size ]; do
+    # until [ "$(wc -l < ${target}_new)" -eq $cluster_size ]; do
+    while true; do
+      target_new_size=0
+      if [ -f "${target}_new)" ]
+      then
+        target_new_size=$(wc -l < ${target}_new)
+      fi
+      if [ $target_new_size -eq $cluster_size ];
+      then
+        break
+      fi
       pod_names=$(kubectl -n {{ .Release.Namespace }} get pod \
         --selector=app={{ template "..name" . }},chart={{ template "..chart" . }},release={{ .Release.Name }},role=worker \
         --field-selector=status.phase=Running \
