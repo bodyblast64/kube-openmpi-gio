@@ -14,6 +14,11 @@ data:
     target=$1
     max_try=$2
 
+    if [ -z "$max_try" ]
+    then
+      max_try=10
+    fi
+
     trap "rm -f ${target}_new" EXIT TERM INT KILL
 
     cluster_size=$(kubectl -n {{ .Release.Namespace }} get statefulsets {{ .Release.Name }}-worker -o jsonpath='{.status.replicas}')
@@ -61,6 +66,7 @@ data:
       if [ -n "$max_try" ] && [ $max_try -ge $tried ]; then
         break
       fi
+      sleep 1
     done
 
     #sed -i "1i{{ .Release.Name }}-master.{{ .Release.Name }}" ${target}_new
