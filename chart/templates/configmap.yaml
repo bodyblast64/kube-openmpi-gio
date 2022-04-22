@@ -63,7 +63,7 @@ data:
       done
 
       tried=$(expr $tried + 1)
-      if [ -n "$max_try" ] && [ $max_try -ge $tried ]; then
+      if [ -n "$max_try" ] && [ $max_try -le $tried ]; then
         break
       fi
       sleep 1
