@@ -67,10 +67,13 @@ data:
         echo "${p}.{{ .Release.Name }} slots=${node_cpus_reduced} max_slots=${node_cpus_reduced}">> ${target}_new
       done
 
-      echo "Contenuto del file: ${target}_new"
-      echo "-----------------------------------------------------"
-      cat "${target}_new"
-      echo "-----------------------------------------------------"
+      if [ -e "${target}_new" ]
+      then
+        echo "Contenuto del file: ${target}_new"
+        echo "-----------------------------------------------------"
+        cat "${target}_new"
+        echo "-----------------------------------------------------"
+      fi
 
       tried=$(expr $tried + 1)
       if [ -n "$max_try" ] && [ $max_try -le $tried ]; then
