@@ -7,11 +7,13 @@ image:
   #tag: 0.0.4
   #repository: umwrg/moea-moea-mpi
   #tag: 0.0.2
-  repository: docker-registry.hydra.org.uk/moea-wre
+  # repository: docker-registry.hydra.org.uk/moea-wre
+  repository: umwrg/moea-wre-dafni-registry
   tag: 0.0.12
   # pullPolicy: IfNotPresent
   pullSecrets:
-  - name: "dafni-docker-registry"
+  # - name: "dafni-docker-registry"
+   - name: cluster-api-secret
 
 networkPolicy:
   enabled: false
@@ -51,21 +53,21 @@ mpiMaster:
     # requests:
     #  cpu: 100m
     #  memory: 128Mi
-  nodeSelector: {} 
+  nodeSelector: {}
   tolerations: []
   affinity:
       nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
                   - matchExpressions:
-                      - key: k3s.io/hostname
+                      - key: kubernetes.io/hostname
                         operator: In
                         values:
                             - dafni-main
 
   volumes:
   - name: moea-volume
-    hostPath: 
+    hostPath:
         path: /export/users-home-working-folders/<USER>/
         type: Directory
   volumeMounts:
@@ -114,7 +116,7 @@ mpiWorkers:
           topologyKey: kubernetes.io/hostname
   volumes:
   - name: moea-volume
-    hostPath: 
+    hostPath:
         path: /export/users-home-working-folders/<USER>
         type: Directory
   volumeMounts:
